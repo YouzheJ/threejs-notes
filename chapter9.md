@@ -21,3 +21,53 @@
 - 片元着色器
 
 片元是栅格化之后，在形成像素之前的数据。片元着色器是每个片元会调用一次的程序，因此，片元着色器特别适合用来做图像后处理。
+
+#### 着色器说明
+
+1. 调试着色器：
+
+- chrome插件: WebGL Insight
+- js插件：Grimoire.js
+
+> !! 最常发生错误的原因就是忘记float类型和int类型不会自动转换的，因此，当你想表达浮点数零的时候，一定要写成0.0而非0
+
+语法：...
+
+2. 着色器文件
+
+着色器代码可以写在单独的文件中（顶点着色器的文件名后缀为.vs，片元着色器的文件名后缀为.fs），也可以在HTML文件中定义script标签实现
+
+- 单独文件
+
+```js
+// load shader
+$.get('shader/my.vs', function(vShader){
+    $.get('shader/my.fs', function(fShader){
+        material = new THREE.ShaderMaterial({
+            vertexShader: vShader,
+            fragementShader: fShader
+        });
+    });
+});
+```
+
+- HTML中
+
+```html
+<!-- 定义顶点着色器；使用 -->
+<script id="vs" type="x-shader/x-vertex">
+    // 这里的内容相当于.vs文件中的内容
+</script>
+
+<!-- 定义片元着色器。 -->
+<script id="fs" type="x-shader/x-fragment">
+   // 这里的内容相当于.fs文件中的内容
+</script>
+
+<script>
+    material = new THREE.ShaderMaterial({
+        vertexShader: document.getElementById('vs').textContent,
+        fragmentShader: document.getElementById('fs').textContent
+    });
+</script>
+```
